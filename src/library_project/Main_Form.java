@@ -9,7 +9,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -43,7 +46,7 @@ public class Main_Form extends javax.swing.JFrame {
                 + "LEFT JOIN album ON album.id = oeuvre.album_id "
                 + "LEFT JOIN origine ON origine.id = oeuvre.origine_id "
                 + "LEFT JOIN societe ON societe.id = oeuvre.societe_id "
-                + "LEFT JOIN TravailleComme ON TravailleComme.oeuvre_id = TravailleComme.personne_id = TravailleComme.profession_id = oeuvre.id "
+                + "LEFT JOIN TravailleComme ON TravailleComme.oeuvre_id = oeuvre.id "
                 + "LEFT JOIN personne ON personne.id = TravailleComme.personne_id "
                 + "LEFT JOIN profession ON profession.id = TravailleComme.profession_id "
                 + "LEFT JOIN statut ON statut.id = oeuvre.statut_id "
@@ -80,7 +83,7 @@ public class Main_Form extends javax.swing.JFrame {
                         
                 );oeuvresList.add(oeuvre);
                 
-            }return oeuvresList;
+            } //return oeuvresList;
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -155,6 +158,11 @@ public class Main_Form extends javax.swing.JFrame {
         });
 
         jButton_Livres.setText("Livres");
+        jButton_Livres.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton_LivresMouseClicked(evt);
+            }
+        });
         jButton_Livres.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_LivresActionPerformed(evt);
@@ -188,6 +196,7 @@ public class Main_Form extends javax.swing.JFrame {
             }
         });
 
+        jTable_MainOeuvres.setBackground(new java.awt.Color(220, 204, 204));
         jTable_MainOeuvres.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -196,8 +205,7 @@ public class Main_Form extends javax.swing.JFrame {
                 "Id", "Category", "Titre", "Annee", "Commentaire", "Note", "Genre", "Langue", "Album", "Origine", "Personne", "Profession", "Societe", "TypeSociete", "Statut", "Support", "TypeConsole"
             }
         ));
-        jTable_MainOeuvres.setGridColor(new java.awt.Color(204, 204, 204));
-        jTable_MainOeuvres.setSelectionBackground(new java.awt.Color(255, 255, 255));
+        jTable_MainOeuvres.setSelectionBackground(new java.awt.Color(0, 153, 204));
         jTable_MainOeuvres.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable_MainOeuvresMouseClicked(evt);
@@ -205,28 +213,11 @@ public class Main_Form extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable_MainOeuvres);
         if (jTable_MainOeuvres.getColumnModel().getColumnCount() > 0) {
-            jTable_MainOeuvres.getColumnModel().getColumn(0).setResizable(false);
             jTable_MainOeuvres.getColumnModel().getColumn(0).setPreferredWidth(40);
-            jTable_MainOeuvres.getColumnModel().getColumn(1).setResizable(false);
             jTable_MainOeuvres.getColumnModel().getColumn(1).setPreferredWidth(100);
-            jTable_MainOeuvres.getColumnModel().getColumn(2).setResizable(false);
             jTable_MainOeuvres.getColumnModel().getColumn(2).setPreferredWidth(150);
-            jTable_MainOeuvres.getColumnModel().getColumn(3).setResizable(false);
             jTable_MainOeuvres.getColumnModel().getColumn(3).setPreferredWidth(60);
-            jTable_MainOeuvres.getColumnModel().getColumn(4).setResizable(false);
-            jTable_MainOeuvres.getColumnModel().getColumn(5).setResizable(false);
             jTable_MainOeuvres.getColumnModel().getColumn(5).setPreferredWidth(40);
-            jTable_MainOeuvres.getColumnModel().getColumn(6).setResizable(false);
-            jTable_MainOeuvres.getColumnModel().getColumn(7).setResizable(false);
-            jTable_MainOeuvres.getColumnModel().getColumn(8).setResizable(false);
-            jTable_MainOeuvres.getColumnModel().getColumn(9).setResizable(false);
-            jTable_MainOeuvres.getColumnModel().getColumn(10).setResizable(false);
-            jTable_MainOeuvres.getColumnModel().getColumn(11).setResizable(false);
-            jTable_MainOeuvres.getColumnModel().getColumn(12).setResizable(false);
-            jTable_MainOeuvres.getColumnModel().getColumn(13).setResizable(false);
-            jTable_MainOeuvres.getColumnModel().getColumn(14).setResizable(false);
-            jTable_MainOeuvres.getColumnModel().getColumn(15).setResizable(false);
-            jTable_MainOeuvres.getColumnModel().getColumn(16).setResizable(false);
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -291,7 +282,7 @@ public class Main_Form extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_MainSearchActionPerformed
 
     private void jButton_LivresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_LivresActionPerformed
-        // TODO add your handling code here:
+       
     }//GEN-LAST:event_jButton_LivresActionPerformed
 
     private void jButton_MusiquesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_MusiquesActionPerformed
@@ -311,8 +302,19 @@ public class Main_Form extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField_MainSearchActionPerformed
 
     private void jTable_MainOeuvresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_MainOeuvresMouseClicked
-        // TODO add your handling code here:
+        int i = jTable_MainOeuvres.getSelectedRow();
+        TableModel model = jTable_MainOeuvres.getModel();
     }//GEN-LAST:event_jTable_MainOeuvresMouseClicked
+
+    private void jButton_LivresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_LivresMouseClicked
+        try {
+            new Livres_Form().setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Main_Form.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Main_Form.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton_LivresMouseClicked
 
     /**
      * @param args the command line arguments

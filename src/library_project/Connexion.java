@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 
 public class Connexion {
     
-    private static String url = "jdbc:sqlite:/Users/dubs/NetBeansProjects/Library_Project_Java_Alex/ProjetJava.db";
+    private static String url = "jdbc:sqlite:/Users/dubs/NetBeansProjects/Library_Project_Java/src/library_project/ProjetJava.db";
     private static Connection connect = null;
 
     public static Connection Connect() throws ClassNotFoundException, SQLException {

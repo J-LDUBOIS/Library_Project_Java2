@@ -11,6 +11,7 @@ public class Library_Project_Java {
       public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
         new Main_Form().setVisible(true);
+        
     }
  
 }

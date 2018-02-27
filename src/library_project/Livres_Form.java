@@ -9,8 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -43,14 +41,14 @@ public class Livres_Form extends javax.swing.JFrame {
                    + "LEFT JOIN langue ON langue.id = oeuvre.langue_id "
                    + "LEFT JOIN origine ON origine.id = oeuvre.origine_id "
                    + "LEFT JOIN societe ON societe.id = oeuvre.societe_id "
-                   + "LEFT JOIN TravailleComme ON TravailleComme.oeuvre_id  = oeuvre.id "
+                   + "LEFT JOIN TravailleComme ON TravailleComme.oeuvre_id = oeuvre.id"
                    + "LEFT JOIN personne ON personne.id = TravailleComme.personne_id "
                    + "LEFT JOIN profession ON profession.id = TravailleComme.profession_id "
                    + "LEFT JOIN statut ON statut.id = oeuvre.statut_id "
                    + "LEFT JOIN support ON support.id = oeuvre.support_id "
                    
                    + "WHERE (`titre`|| `date_parution`|| `note`|| `name_personne` || `name_profession` || `name_societe` ) LIKE '%"+ValToSearch+"%' "
-                   + "AND (category_id == 2)";
+                   + "AND (category_id = 2)";
            
             result = state.executeQuery(livreQuery);
 
@@ -131,7 +129,6 @@ public class Livres_Form extends javax.swing.JFrame {
                 // refresh jtable data
                 DefaultTableModel model = (DefaultTableModel) jTable_Display_Livres.getModel();
                 model.setRowCount(0);
-                model.fireTableDataChanged ();
 
                 JOptionPane.showMessageDialog(null, "Data " + message + " Succefully");
             } else {
@@ -140,8 +137,9 @@ public class Livres_Form extends javax.swing.JFrame {
             findLivres(state);
         } catch (Exception ex) {
             ex.printStackTrace();
-        }
-    }
+            
+        }findLivres(state);
+    } 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -655,12 +653,23 @@ public class Livres_Form extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_DeleteActionPerformed
 
     private void jButton_UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_UpdateActionPerformed
-        String query = "UPDATE `oeuvre`SET `titre`= '" + jTextField_Titre.getText() + "', `date_parution`= '" + jTextField_Annee.getText() + "', `commentaire`= '" + jTextArea_Commentaire.getText() +"', `note`= '" + jTextField_Note.getText()  + "' WHERE `id`= '" + jTextField_Id.getText() + "'";
+        String query = "UPDATE `oeuvre`"
+                + "SET `titre`= '" + jTextField_Titre.getText() + "',"
+                + " `date_parution`= '" + jTextField_Annee.getText() + "',"
+                + " `commentaire`= '" +jTextArea_Commentaire.getText() +"',"
+                + "`note`= '" + jTextField_Note.getText()  +"',"
+                + "' WHERE `id`= '" + jTextField_Id.getText() + "'";
         executeSQlQuery(query, "Updated");
     }//GEN-LAST:event_jButton_UpdateActionPerformed
 
     private void jButton_InsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_InsertActionPerformed
-        String query = "INSERT INTO `oeuvre`(`titre`,`date_parution`,`commentaire`,`note`) VALUES ('" + jTextField_Titre.getText() + "','" + jTextField_Annee.getText() + "','" + jTextArea_Commentaire.getText() + "','" + jTextField_Note.getText() + "')";
+        String query = "INSERT INTO `oeuvre`(`titre`,`date_parution`,`commentaire`,`note`) " +
+                "VALUES ('" + jTextField_Titre.getText() + "','" + jTextField_Annee.getText() + "'," +
+                "'" + jTextArea_Commentaire.getText() + "','" + jTextField_Note.getText() + "')";
+        
+        String query2 = "INSERT INTO `oeuvre`(`titre`,`date_parution`,`commentaire`,`note`) " +
+                "VALUES ('" + jTextField_Titre.getText() + "','" + jTextField_Annee.getText() + "'," +
+                "'" + jTextArea_Commentaire.getText() + "','" + jTextField_Note.getText() + "')";
         executeSQlQuery(query, "Inserted");
     }//GEN-LAST:event_jButton_InsertActionPerformed
 
@@ -676,46 +685,7 @@ public class Livres_Form extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_TitreActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Livres_Form.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Livres_Form.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Livres_Form.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Livres_Form.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    new Livres_Form().setVisible(true);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Livres_Form.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Livres_Form.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
-    }
+ 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_Delete;
